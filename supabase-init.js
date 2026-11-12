@@ -35,7 +35,7 @@ window.syncFromCloud = async function() {
   if (!window.currentUser || !window.supabaseClient) return;
 
   try {
-    const [recipesRes, menusRes, memosRes] = await Promise.all([
+    const [recipesRes, menusRes, memosRes, catsRes] = await Promise.all([
       window.supabaseClient.from('recipes').select('*').order('created_at', { ascending: true }),
       window.supabaseClient.from('menus').select('*'),
       window.supabaseClient.from('custom_memos').select('*').order('created_at', { ascending: true }),
