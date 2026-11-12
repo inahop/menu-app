@@ -415,14 +415,6 @@ function loadAndRenderRecipe(title) {
           <h3>${data.title}</h3>
           <span class="detail-cat-badge">${data.cat}</span>
         </div>
-        
-        <div class="quick-assign-box">
-          <select id="quick-assign-day" class="quick-day-select">
-            ${dayOptions}
-          </select>
-          <button type="button" class="btn quick-assign-btn" id="btn-quick-assign">📅 献立に登録</button>
-        </div>
-      </div>
 
       <div class="detail-body-grid">
         <div>
@@ -438,6 +430,16 @@ function loadAndRenderRecipe(title) {
         </div>
         ${notesH}
       </div>
+        
+        <div class="quick-assign-box">
+          <span>献立に登録：</span>
+          <select id="quick-assign-day" class="quick-day-select">
+            ${dayOptions}
+          </select>
+          <button type="button" class="btn quick-assign-btn" id="btn-quick-assign">登録</button>
+        </div>
+      </div>
+
     </div>
   `;
 

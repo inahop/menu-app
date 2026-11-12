@@ -16,6 +16,12 @@ body {
   overflow: hidden;
 }
 
+@media (min-width: 600px) {
+  .sp {
+    display: none;
+  }
+}
+
 /* ==========================================
    上部タブナビゲーション（画面幅に均等フィット）
    ========================================== */
@@ -213,7 +219,7 @@ body {
 }
 
 /* ==========================================
-   ページ③：カレンダー（旧・献立作成）
+   ページ③：献立
    ========================================== */
 #page-menu {
   max-width: 900px;
@@ -263,12 +269,12 @@ body {
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
       .day-name {
         font-weight: bold;
-        border-bottom: 2px solid #e67e22;
-        padding-bottom: 4px;
+        padding: 4px;
         margin-bottom: 8px;
         text-align: center;
         font-size: 0.9rem;
-        color: #2c3e50;
+        color: #e67d23;
+        background-color: #faecdd;
       }
 
       .menu-dish {
@@ -277,6 +283,7 @@ body {
         align-items: center;
         gap: 6px;
         font-size: 0.8rem;
+        font-weight: bold;
         margin-bottom: 5px;
         padding: 4px 8px;
         border-radius: 6px; // 全体も少し柔らかい角丸に
@@ -295,7 +302,6 @@ body {
 
         // カテゴリーごとの丸の色
         &.main {
-          font-weight: bold;
           &::before {
             background-color: #e67e22; // 主菜：オレンジ
           }
@@ -372,7 +378,6 @@ body {
   .memo-input-group {
     display: flex;
     gap: 10px;
-    margin-bottom: 15px;
     .memo-input {
       flex: 1;
       padding: 10px;
@@ -388,10 +393,15 @@ body {
     }
   }
 
-  .shopping-hint {
+  .card {
     padding: 10px;
-    font-size: 0.85rem;
-    color: #666;
+    margin-bottom: 15px;
+    .shopping-hint {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+      color: #666;
+    }
   }
 
   .shopping-list {
@@ -513,7 +523,7 @@ body {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 12px;
+        padding: 10px 0;
         border-bottom: 1px solid #f0f0f0;
         font-size: 0.95rem;
         color: #2c3e50;
@@ -700,10 +710,10 @@ body {
 
 
 /* ==========================================
-   レシピ詳細モーダルのスタイル
+   レシピ詳細モーダル
    ========================================== */
 .recipe-modal {
-  display: none; // 初期状態は非表示（JSでflexにして表示）
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -714,43 +724,42 @@ body {
   align-items: center;
   padding: 16px;
   box-sizing: border-box;
+
   &.is-open {
     display: flex;
   }
 
-  // 背景の暗いオーバーレイ（タップで閉じる）
   .recipe-modal-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(2px);
+    background-color: rgba(44, 62, 80, 0.55);
+    backdrop-filter: blur(3px);
   }
 
-  // モーダル本体カード
   .recipe-modal-content {
     position: relative;
     background-color: #ffffff;
     width: 100%;
-    max-width: 650px;
-    max-height: 85vh; // 画面の高さを超えた場合は中でスクロール
+    max-width: 620px;
+    max-height: 86vh;
     overflow-y: auto;
-    border-radius: 12px;
-    padding: 24px 20px 20px 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    padding: 24px 22px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.22);
     z-index: 1001;
     box-sizing: border-box;
-    animation: modalFadeIn 0.2s ease-out;
+    animation: modalFadeIn 0.22s ease-out;
 
-    // 右上の「×」閉じるボタン
+    /* 右上の「×」ボタン */
     .modal-close-btn {
       position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 32px;
-      height: 32px;
+      top: 16px;
+      right: 16px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       border: none;
       background-color: #f1f2f6;
@@ -763,14 +772,166 @@ body {
       align-items: center;
       justify-content: center;
       transition: all 0.15s ease;
+
       &:hover {
         background-color: #e74c3c;
         color: #ffffff;
+        transform: rotate(90deg);
       }
     }
-    // モーダル内のタイトルが「×」ボタンと重ならないよう右余白を確保
-    .detail-header {
-      padding-right: 36px;
+  }
+}
+
+/* ==========================================
+   モーダル内部のレシピ詳細レイアウト
+   ========================================== */
+.recipe-detail-wrapper {
+  width: 100%;
+
+  /* 上部ヘッダー（料理名・カテゴリー・献立登録バー） */
+  .detail-header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .detail-title-group {
+      padding-right: 36px; /* 右上の「×」ボタンと重ならない余白 */
+      h3 {
+        display: inline; 
+        margin: 0;
+        font-size: 1.3rem;
+        color: #2c3e50;
+        line-height: 1.3;
+      }
+
+      .detail-cat-badge {
+        background-color: #fff3e0;
+        color: #e67e22;
+        border: 1px solid #f5cba7;
+        padding: 3px 10px;
+        margin-left: 8px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        border-radius: 20px;
+        white-space: nowrap;
+        vertical-align: text-top;
+      }
+    }
+
+    /* 曜日選択 ＋ 登録ボタンの操作バー */
+    .quick-assign-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      margin-top: 18px;
+
+      .quick-day-select {
+        padding: 6px 10px;
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: bold;
+        background-color: #ffffff;
+        color: #2c3e50;
+        cursor: pointer;
+
+        &:focus {
+          outline: none;
+          border-color: #2ecc71;
+        }
+      }
+
+      .quick-assign-btn {
+        background-color: #2ecc71;
+        color: #ffffff;
+        padding: 5px 14px;
+        font-size: 0.85rem;
+        font-weight: bold;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        white-space: nowrap;
+        box-shadow: 0 2px 6px rgba(46, 204, 113, 0.25);
+        transition: all 0.15s ease;
+
+        &:hover {
+          background-color: #27ae60;
+          transform: translateY(-1px);
+        }
+      }
+    }
+  }
+
+  /* 材料・下準備・作り方のグリッド（スマホは1列、PCは2列） */
+  .detail-body-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+
+    @media (min-width: 560px) {
+      grid-template-columns: 1fr 1.2fr;
+      gap: 20px;
+    }
+
+    /* 左カラム（材料・下準備）を薄いグレーカードでまとめる */
+    > div:first-child {
+      background-color: #f8f9fa;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1px solid #eef1f4;
+    }
+
+    /* 右カラム（作り方）の余白調整 */
+    > div:nth-child(2) {
+      padding: 4px 2px;
+    }
+
+    .detail-sub-title {
+      margin: 0 0 8px 0;
+      padding-bottom: 4px;
+      border-bottom: 2px solid #e67e22;
+      display: inline-block;
+      font-size: 0.92rem;
+      color: #2c3e50;
+    }
+
+    .detail-list {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 0.88rem;
+      color: #34495e;
+      line-height: 1.65;
+
+      li {
+        margin-bottom: 4px;
+      }
+    }
+
+    /* レシピメモ欄 */
+    .detail-notes {
+      margin-top: 4px;
+      padding: 12px 16px;
+      background-color: #fffdf5;
+      border: 1px solid #fae5b0;
+      border-left: 4px solid #f39c12;
+      border-radius: 8px;
+      grid-column: 1 / -1;
+
+      strong {
+        color: #d68910;
+        font-size: 0.85rem;
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      p {
+        margin: 0;
+        font-size: 0.85rem;
+        color: #555555;
+        line-height: 1.5;
+        white-space: pre-wrap;
+      }
     }
   }
 }

@@ -33,10 +33,10 @@
     
     <!-- 上部タブナビゲーション -->
     <nav class="tab-nav">
-      <button class="tab-btn active" data-target="page-register">レシピ<br>登録</button>
-      <button class="tab-btn" data-target="page-list">レシピ<br>一覧</button>
-      <button class="tab-btn" data-target="page-menu">1週間の<br>献立</button>
-      <button class="tab-btn" data-target="page-shopping">買い物<br>リスト</button>
+      <button class="tab-btn active" data-target="page-register">レシピ<br class="sp">登録</button>
+      <button class="tab-btn" data-target="page-list">レシピ<br class="sp">一覧</button>
+      <button class="tab-btn" data-target="page-menu">1週間の<br class="sp">献立</button>
+      <button class="tab-btn" data-target="page-shopping">買い物<br class="sp">リスト</button>
       <button class="tab-btn" data-target="page-settings">設定</button>
     </nav>
 
@@ -48,12 +48,12 @@
         <h3 class="section-title">新しいレシピを追加する</h3>
         <div class="form-group"><label>レシピ名</label><input type="text" id="in-title" placeholder="例：オムライス"></div>
         <div class="form-group"><label>カテゴリ</label><select id="in-cat"><option>主菜</option><option>副菜</option><option>汁物</option></select></div>
-        <div class="form-group"><label>材料 (名前 分量、1行ずつ)</label><textarea id="in-ing" rows="4" placeholder="卵 2個
+        <div class="form-group"><label>材料 (名前 分量、1行ずつ)</label><textarea id="in-ing" rows="8" placeholder="卵 2個
 ご飯 1皿"></textarea></div>
-        <div class="form-group"><label>下準備 (1行ずつ)</label><textarea id="in-prep" rows="2" placeholder="卵をよく混ぜておく"></textarea></div>
-        <div class="form-group"><label>作り方 (1行ずつ)</label><textarea id="in-steps" rows="4" placeholder="ご飯を炒める
+        <div class="form-group"><label>下準備 (1行ずつ)</label><textarea id="in-prep" rows="3" placeholder="卵をよく混ぜておく"></textarea></div>
+        <div class="form-group"><label>作り方 (1行ずつ)</label><textarea id="in-steps" rows="10" placeholder="ご飯を炒める
 卵で包む"></textarea></div>
-        <div class="form-group"><label>メモ (自由に記入)</label><textarea id="in-notes" rows="2" placeholder="例：食べた感想、代用できる調味料など"></textarea></div>
+        <div class="form-group"><label>メモ (自由に記入)</label><textarea id="in-notes" rows="4" placeholder="例：食べた感想、代用できる調味料など"></textarea></div>
         <button class="btn primary-btn" id="save-btn">レシピを保存する</button>
         <p class="hint">既存のレシピを呼び出している場合、上書き保存されます</p>
       </div>
@@ -75,7 +75,7 @@
           <h3>1週間の献立</h3>
           <button type="button" class="btn btn-reset-calendar" id="clear-all-btn">今週の献立をリセット</button>
         </div>
-        <p class="calendar-hint">料理名をタップすると<br>レシピ詳細の確認や曜日変更ができます</p>
+        <p class="calendar-hint">レシピ名をタップすると詳細の確認ができます</p>
         <div class="calendar-grid" id="calendar-grid"></div>
       </div>
 
@@ -85,12 +85,12 @@
           <h3>買い物リスト</h3>
           <span class="shopping-note">※カレンダーの献立から自動集計</span>
         </div>
-        <div class="memo-input-group">
-          <input type="text" id="in-memo" class="memo-input" placeholder="例：牛乳、トイレットペーパー">
-          <button class="btn btn-add-memo" id="add-memo-btn">＋ メモを追加</button>
-        </div>
-        <div class="card shopping-hint">
-          スーパーで買ったものはタップすると横線が引けてチェックできます！
+        <div class="card">
+          <span class="shopping-hint">ここでリストへ個別で追加できます</span>
+          <div class="memo-input-group">
+            <input type="text" id="in-memo" class="memo-input" placeholder="例：グラノーラ">
+            <button class="btn btn-add-memo" id="add-memo-btn">＋ 追加</button>
+          </div>
         </div>
         <ul class="shopping-list" id="shopping-list-container"></ul>
       </div>
@@ -120,13 +120,13 @@
 
     </main>
 
-    <!-- 既存の <main> や設定ページの後ろに配置します -->
+    <!-- 既存の <main> や設定ページの後ろに配置 -->
     <div id="recipe-modal" class="recipe-modal">
       <div class="recipe-modal-overlay" id="modal-overlay"></div>
       <div class="recipe-modal-content">
         <button type="button" class="modal-close-btn" id="modal-close-btn" title="閉じる">×</button>
         <div id="modal-body">
-          <!-- JavaScriptでレシピの詳細とクイック登録バーがここに挿入されます -->
+          <!-- JavaScriptでレシピの詳細とクイック登録バーがここに挿入 -->
         </div>
       </div>
     </div>
