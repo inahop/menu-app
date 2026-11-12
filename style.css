@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* ==========================================
    共通・ベーススタイル
    ========================================== */
@@ -6,6 +7,7 @@
   margin: 0;
   padding: 0;
 }
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   color: #333;
@@ -16,41 +18,58 @@ body {
   overflow: hidden;
 }
 
-/* 画面上部のナビゲーションタブ */
+/* ==========================================
+   上部タブナビゲーション（画面幅に均等フィット）
+   ========================================== */
 .tab-nav {
   display: flex;
-  background: #fff;
-  border-bottom: 2px solid #ddd;
-  overflow-x: auto;
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  overflow-x: hidden; /* 横スクロールを完全に無効化 */
 }
-.tab-btn {
-  flex: 1;
-  padding: 15px 10px;
-  border: none;
+.tab-nav .tab-btn {
+  flex: 1; /* 5つのタブを画面幅いっぱいに均等分割する */
+  min-width: 0; /* Flexアイテムが文字幅で勝手にはみ出すのを防ぐ */
+  padding: 12px 2px 10px; /* 左右の余白を詰めて文字スペースを確保 */
   background: none;
-  font-size: 0.9rem;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-size: 0.78rem; /* スマホ幅（375px前後）でも5つ綺麗に収まるサイズ */
   font-weight: bold;
-  color: #666;
+  line-height: 1.3;
+  color: #7f8c8d;
   cursor: pointer;
   text-align: center;
-  border-bottom: 3px solid transparent;
-  white-space: nowrap;
+  transition: all 0.2s ease;
 }
-.tab-btn:hover {
-  background: #fafafa;
-}
-.tab-btn.active {
+.tab-nav .tab-btn.active {
   color: #e67e22;
   border-bottom-color: #e67e22;
-  background: #fff;
+  background-color: #fffaf5;
+}
+.tab-nav .tab-btn:hover:not(.active) {
+  color: #2c3e50;
+  background-color: #f8f9fa;
 }
 
+/* 画面幅が広いPC・タブレットでは文字と余白を少しゆったりさせる */
+@media (min-width: 600px) {
+  .tab-nav .tab-btn {
+    font-size: 0.9rem;
+    padding: 14px 8px;
+  }
+}
 /* メインコンテンツ表示エリア */
 .main-content-area {
   flex: 1;
   overflow: hidden;
   position: relative;
 }
+
 .page-view {
   display: none;
   width: 100%;
@@ -58,6 +77,7 @@ body {
   overflow-y: auto;
   padding: 20px;
 }
+
 .page-view.active {
   display: block;
 }
@@ -66,12 +86,14 @@ body {
 .form-group {
   margin-bottom: 12px;
 }
+
 .form-group label {
   display: block;
   font-weight: bold;
   margin-bottom: 4px;
   font-size: 0.85rem;
 }
+
 .form-group input, .form-group textarea, .form-group select {
   width: 100%;
   padding: 8px;
@@ -79,6 +101,7 @@ body {
   border-radius: 6px;
   font-size: 1rem;
 }
+
 .btn {
   padding: 10px 15px;
   border: none;
@@ -88,24 +111,28 @@ body {
   display: inline-block;
   text-align: center;
 }
+
 .primary-btn {
   background: #e67e22;
   color: white;
   width: 100%;
 }
+
 .card {
   background: #fff;
   padding: 15px;
   border-radius: 8px;
   margin-bottom: 15px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
+
 .title-border {
   border-left: 4px solid #e67e22;
   padding-left: 8px;
   margin-bottom: 10px;
   font-size: 1rem;
 }
+
 .center-placeholder {
   position: absolute;
   top: 50%;
@@ -123,18 +150,26 @@ body {
   max-width: 500px;
   margin: 0 auto;
 }
+#page-register .section-title {
+  margin-bottom: 15px;
+}
+#page-register .hint {
+  margin: 6px auto 0;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
 
 /* ==========================================
    ページ②：レシピ一覧
    ========================================== */
-.filter-group {
+#page-list .filter-group {
   display: flex;
   gap: 8px;
   margin-bottom: 15px;
   overflow-x: auto;
   padding-bottom: 5px;
 }
-.filter-btn {
+#page-list .filter-group .filter-btn {
   background: #ddd;
   color: #555;
   padding: 6px 12px;
@@ -144,27 +179,27 @@ body {
   cursor: pointer;
   white-space: nowrap;
 }
-.filter-btn.active {
+#page-list .filter-group .filter-btn.active {
   background: #e67e22;
   color: white;
 }
-.recipe-grid {
+#page-list .recipe-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 12px;
 }
-.recipe-card {
+#page-list .recipe-grid .recipe-card {
   background: #fff;
   padding: 12px;
   border-radius: 8px;
   border: 1px solid #e0e0e0;
   cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
-.recipe-card:hover {
+#page-list .recipe-grid .recipe-card:hover {
   border-color: #e67e22;
 }
-.card-cat {
+#page-list .recipe-grid .recipe-card .card-cat {
   font-size: 0.7rem;
   color: #e67e22;
   background: #fee;
@@ -174,7 +209,7 @@ body {
   display: inline-block;
   margin-bottom: 6px;
 }
-.card-title {
+#page-list .recipe-grid .recipe-card .card-title {
   font-weight: bold;
   font-size: 0.95rem;
   white-space: nowrap;
@@ -183,102 +218,128 @@ body {
 }
 
 /* ==========================================
-   ページ③：献立作成
+   ページ③：カレンダー（旧・献立作成）
    ========================================== */
-.献立-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+#page-menu {
+  max-width: 900px;
+  margin: 0 auto;
 }
-.menu-left {
-  background: #fff;
-  padding: 15px;
-  border-bottom: 2px solid #ddd;
-}
-.menu-right {
-  flex: 1;
+#page-menu .calendar-page-header {
   display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-.preview-box {
-  flex: 1;
-  border-bottom: 2px solid #eee;
-  padding: 15px;
-  overflow-y: auto;
-  position: relative;
-  display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 8px;
 }
-.preview-box__txt {
-  color: #999;
-  font-size: 0.9rem;
-  text-align: center;
+#page-menu .calendar-page-header h3 {
+  margin: 0;
+  color: #2c3e50;
 }
-.calendar-box {
-  height: 260px;
-  padding: 15px;
-  background: #fff;
-  overflow-y: auto;
+#page-menu .calendar-page-header .btn-reset-calendar {
+  background-color: #f1f2f6;
+  color: #576574;
+  border: 1px solid #dcdde1;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
-.calendar-grid {
+#page-menu .calendar-page-header .btn-reset-calendar:hover {
+  background-color: #e74c3c;
+  border-color: #e74c3c;
+  color: #ffffff;
+}
+#page-menu .calendar-hint {
+  margin: 0 0 16px 0;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+#page-menu .calendar-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 8px;
-  margin-top: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 12px;
 }
-.day-card {
-  background: #f9f9f9;
+#page-menu .calendar-grid .day-card {
+  background-color: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  padding: 8px;
-  min-height: 100px;
+  padding: 12px;
+  min-height: 120px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
-.day-name {
+#page-menu .calendar-grid .day-card .day-name {
   font-weight: bold;
   border-bottom: 2px solid #e67e22;
-  padding-bottom: 2px;
-  margin-bottom: 4px;
+  padding-bottom: 4px;
+  margin-bottom: 8px;
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
+  color: #2c3e50;
 }
-.menu-dish {
-  font-size: 0.75rem;
-  margin-bottom: 2px;
-  padding-left: 4px;
-  border-left: 3px solid #ccc;
+#page-menu .calendar-grid .day-card .menu-dish {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  margin-bottom: 5px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background-color 0.15s ease;
+}
+#page-menu .calendar-grid .day-card .menu-dish::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #cccccc;
+  flex-shrink: 0;
+}
+#page-menu .calendar-grid .day-card .menu-dish.main {
+  font-weight: bold;
+}
+#page-menu .calendar-grid .day-card .menu-dish.main::before {
+  background-color: #e67e22;
+}
+#page-menu .calendar-grid .day-card .menu-dish.side::before {
+  background-color: #3498db;
+}
+#page-menu .calendar-grid .day-card .menu-dish.soup::before {
+  background-color: #9b59b6;
+}
+#page-menu .calendar-grid .day-card .menu-dish.extra::before {
+  background-color: #2ecc71;
+}
+#page-menu .calendar-grid .day-card .menu-dish.is-clickable {
+  cursor: pointer;
+}
+#page-menu .calendar-grid .day-card .menu-dish.is-clickable:hover {
+  background-color: #f0f4f8;
+}
+#page-menu .calendar-grid .day-card .menu-dish .dish-text {
+  flex: 1;
+  min-width: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.menu-dish.main { border-left-color: #e67e22; font-weight: bold; }
-.menu-dish.side { border-left-color: #3498db; }
-.menu-dish.soup { border-left-color: #9b59b6; }
-
-.recipe-detail-layout {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+#page-menu .calendar-grid .day-card .menu-dish .dish-remove-btn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: #95a5a6;
+  font-size: 0.95rem;
+  font-weight: bold;
+  line-height: 1;
+  padding: 0 2px;
+  cursor: pointer;
+  transition: color 0.15s ease;
 }
-.detail-side {
-  background: #fff;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-.detail-main {
-  flex: 1;
-}
-.detail-main ul, .detail-main ol {
-    margin-left: 1rem;
-}
-.ing-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 3px 0;
-  border-bottom: 1px dashed #eee;
-  font-size: 0.85rem;
+#page-menu .calendar-grid .day-card .menu-dish .dish-remove-btn:hover {
+  color: #e74c3c;
 }
 
 /* ==========================================
@@ -288,11 +349,44 @@ body {
   max-width: 600px;
   margin: 0 auto;
 }
-.shopping-list {
+#page-shopping .shopping-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+#page-shopping .shopping-header .shopping-note {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+#page-shopping .memo-input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+#page-shopping .memo-input-group .memo-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+#page-shopping .memo-input-group .btn-add-memo {
+  background: #3498db;
+  color: white;
+  white-space: nowrap;
+  padding: 0 20px;
+}
+#page-shopping .shopping-hint {
+  padding: 10px;
+  font-size: 0.85rem;
+  color: #666;
+}
+#page-shopping .shopping-list {
   list-style: none;
   margin-top: 15px;
 }
-.shopping-item {
+#page-shopping .shopping-list .shopping-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -300,45 +394,407 @@ body {
   background: #fff;
   border-radius: 8px;
   margin-bottom: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
   border-left: 4px solid #2ecc71;
   cursor: pointer;
-  user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
-.shopping-item.checked {
+#page-shopping .shopping-list .shopping-item.checked {
   background: #eef1f4;
   border-left-color: #bdc3c7;
   opacity: 0.6;
 }
-.shopping-item.checked .item-name {
+#page-shopping .shopping-list .shopping-item.checked .item-name {
   text-decoration: line-through;
   color: #7f8c8d;
 }
-.shopping-item input[type="checkbox"] {
+#page-shopping .shopping-list .shopping-item input[type=checkbox] {
   margin-right: 12px;
   transform: scale(1.2);
   cursor: pointer;
 }
-.item-left {
+#page-shopping .shopping-list .shopping-item .item-left {
   display: flex;
   align-items: center;
 }
-.item-amount {
+#page-shopping .shopping-list .shopping-item .item-amount {
   font-weight: bold;
   color: #2c3e50;
   font-size: 0.95rem;
 }
 
 /* ==========================================
-   iPad・PC（768px以上）のメディアクエリ
+   ページ⑤：設定タブ（カプセル型矢印付き）
    ========================================== */
-@media (min-width: 768px) {
-  .tab-nav { justify-content: center; }
-  .tab-btn { flex: none; width: 160px; }
-  .献立-container { flex-direction: row; height: 100%; }
-  .menu-left { width: 300px; height: 100%; border-bottom: none; border-right: 2px solid #ddd; overflow-y: auto; }
-  .menu-right { height: 100%; }
-  .recipe-detail-layout { display: grid; grid-template-columns: 240px 1fr; gap: 15px; }
-  .detail-side { margin-bottom: 0; }
-  .calendar-grid { grid-template-columns: repeat(7, 1fr); }
+#page-settings {
+  max-width: 600px;
+  margin: 0 auto;
+}
+#page-settings .settings-heading {
+  margin: 0 0 16px 0;
+  color: #2c3e50;
+}
+#page-settings .settings-card {
+  background: #fff;
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+#page-settings .settings-card .settings-sub-title {
+  margin: 0 0 10px 0;
+  color: #34495e;
+  font-size: 1rem;
+}
+#page-settings .settings-card .settings-email {
+  margin: 0 0 14px 0;
+  font-size: 0.9rem;
+  color: #2c3e50;
+}
+#page-settings .settings-card .settings-desc {
+  margin: 0 0 14px 0;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+#page-settings .settings-card .logout-btn {
+  background: #e74c3c;
+  color: #fff;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+#page-settings .settings-card .cat-add-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+#page-settings .settings-card .cat-add-form input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+#page-settings .settings-card .cat-add-form .cat-add-btn {
+  background: #2ecc71;
+  color: #fff;
+  padding: 0 18px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+}
+#page-settings .settings-card .cat-manage-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+#page-settings .settings-card .cat-manage-list .cat-manage-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.95rem;
+  color: #2c3e50;
+}
+#page-settings .settings-card .cat-manage-list .cat-manage-item:last-child {
+  border-bottom: none;
+}
+#page-settings .settings-card .cat-manage-list .cat-manage-item .cat-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+#page-settings .settings-card .cat-manage-list .cat-manage-item .cat-item-left .cat-sort-btns {
+  display: inline-flex;
+  align-items: center;
+  background: #f8f9fa;
+  border: 1px solid #dcdde1;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+#page-settings .settings-card .cat-manage-list .cat-manage-item .cat-item-left .cat-sort-btns .cat-move-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 26px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  color: #576574;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+#page-settings .settings-card .cat-manage-list .cat-manage-item .cat-item-left .cat-sort-btns .cat-move-btn.cat-up-btn {
+  border-right: 1px solid #e1e8ed;
+}
+#page-settings .settings-card .cat-manage-list .cat-manage-item .cat-item-left .cat-sort-btns .cat-move-btn:hover:not(:disabled) {
+  background: #2ecc71;
+  color: #fff;
+}
+#page-settings .settings-card .cat-manage-list .cat-manage-item .cat-item-left .cat-sort-btns .cat-move-btn:active:not(:disabled) {
+  background: #27ae60;
+}
+#page-settings .settings-card .cat-manage-list .cat-manage-item .cat-item-left .cat-sort-btns .cat-move-btn:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+#page-settings .settings-card .cat-manage-list .cat-manage-item .cat-item-left .cat-sort-btns .cat-move-btn svg {
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+#page-settings .settings-card .cat-manage-list .cat-manage-item .cat-item-left .cat-item-name {
+  font-weight: 500;
+  color: #2c3e50;
+}
+#page-settings .settings-card .cat-manage-list .cat-manage-item .cat-action-btns {
+  display: flex;
+  gap: 8px;
+}
+#page-settings .settings-card .cat-manage-list .cat-manage-item .cat-action-btns .cat-edit-btn,
+#page-settings .settings-card .cat-manage-list .cat-manage-item .cat-action-btns .cat-del-btn {
+  background: none;
+  border: 1px solid #dcdde1;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+#page-settings .settings-card .cat-manage-list .cat-manage-item .cat-action-btns .cat-edit-btn {
+  color: #3498db;
+}
+#page-settings .settings-card .cat-manage-list .cat-manage-item .cat-action-btns .cat-del-btn {
+  color: #e74c3c;
+}
+
+/* ==========================================
+   🔐 ログイン画面
+========================================== */
+/* アプリ本体（ログイン前は非表示、ログイン後にJSでflexに切り替え） */
+.app-wrapper {
+  display: none;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  overflow-y: auto;
+}
+
+/* ログイン画面全体 */
+.login-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f6fa;
+  padding: 20px;
+  box-sizing: border-box;
+  /* 中央の白いログインカード */
+}
+.login-screen .login-card {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 380px;
+  box-sizing: border-box;
+}
+.login-screen .login-card .login-title {
+  margin: 0 0 8px 0;
+  text-align: center;
+  color: #2c3e50;
+  font-size: 1.4rem;
+}
+.login-screen .login-card .login-subtitle {
+  margin: 0 0 24px 0;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #7f8c8d;
+}
+.login-screen .login-card {
+  /* 入力フォームのグループ */
+}
+.login-screen .login-card .login-group {
+  margin-bottom: 16px;
+}
+.login-screen .login-card .login-group label {
+  display: block;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #34495e;
+}
+.login-screen .login-card .login-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+.login-screen .login-card .login-group input:focus {
+  outline: none;
+  border-color: #2ecc71;
+}
+.login-screen .login-card {
+  /* ログイン・新規登録ボタン */
+}
+.login-screen .login-card .login-btn {
+  width: 100%;
+  background-color: #2ecc71;
+  color: #ffffff;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background-color 0.2s;
+}
+.login-screen .login-card .login-btn:hover {
+  background-color: #27ae60;
+}
+.login-screen .login-card .login-btn:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+/* ==========================================
+   レシピ詳細モーダルのスタイル
+   ========================================== */
+.recipe-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+.recipe-modal.is-open {
+  display: flex;
+}
+.recipe-modal .recipe-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+}
+.recipe-modal .recipe-modal-content {
+  position: relative;
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 650px;
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: 12px;
+  padding: 24px 20px 20px 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  z-index: 1001;
+  box-sizing: border-box;
+  animation: modalFadeIn 0.2s ease-out;
+}
+.recipe-modal .recipe-modal-content .modal-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background-color: #f1f2f6;
+  color: #576574;
+  font-size: 1.2rem;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+.recipe-modal .recipe-modal-content .modal-close-btn:hover {
+  background-color: #e74c3c;
+  color: #ffffff;
+}
+.recipe-modal .recipe-modal-content .detail-header {
+  padding-right: 36px;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+/* ==========================================
+   自動消去トースト通知 
+   ========================================== */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+  width: 90%;
+  max-width: 360px;
+}
+.toast-container .toast-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #ffffff;
+  color: #2c3e50;
+  border: 2px solid #2ecc71;
+  padding: 12px 18px;
+  border-radius: 50px;
+  box-shadow: 0 8px 20px rgba(46, 204, 113, 0.2);
+  font-size: 0.9rem;
+  font-weight: bold;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.toast-container .toast-item.is-show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.toast-container .toast-item.is-error {
+  border-color: #ff7675;
+  box-shadow: 0 8px 20px rgba(255, 118, 117, 0.2);
+}
+.toast-container .toast-item .toast-icon {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+.toast-container .toast-item .toast-msg {
+  line-height: 1.3;
 }

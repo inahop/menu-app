@@ -8,90 +8,141 @@
 </head>
 <body>
 
-  <!-- 上部タブナビゲーション -->
-  <nav class="tab-nav">
-    <button class="tab-btn active" data-target="page-register">レシピ登録</button>
-    <button class="tab-btn" data-target="page-list">レシピ一覧</button>
-    <button class="tab-btn" data-target="page-menu">献立作成</button>
-    <button class="tab-btn" data-target="page-shopping">買い物リスト</button>
-  </nav>
-
-  <!-- メインコンテンツ表示部分 -->
-  <main class="main-content-area">
-
-    <!-- 1. レシピ登録ページ -->
-    <div id="page-register" class="page-view active">
-      <h3 style="margin-bottom:15px;">新しいレシピを追加する</h3>
-      <div class="form-group"><label>レシピ名</label><input type="text" id="in-title" placeholder="例：オムライス"></div>
-      <div class="form-group"><label>カテゴリ</label><select id="in-cat"><option>主菜</option><option>副菜</option><option>汁物</option></select></div>
-      <div class="form-group"><label>材料 (名前 分量、1行ずつ)</label><textarea id="in-ing" rows="4" placeholder="卵 2個&#10;ご飯 1皿"></textarea></div>
-      <div class="form-group"><label>下準備 (1行ずつ)</label><textarea id="in-prep" rows="2" placeholder="卵をよく混ぜておく"></textarea></div>
-      <div class="form-group"><label>作り方 (1行ずつ)</label><textarea id="in-steps" rows="4" placeholder="ご飯を炒める&#10;卵で包む"></textarea></div>
-      <button class="btn primary-btn" id="save-btn">レシピを保存する</button>
-    </div>
-
-    <!-- 2. レシピ一覧ページ -->
-    <div id="page-list" class="page-view">
-      <div class="filter-group">
-        <button class="filter-btn active" data-filter="すべて">すべて</button>
-        <button class="filter-btn" data-filter="主菜">主菜</button>
-        <button class="filter-btn" data-filter="副菜">副菜</button>
-        <button class="filter-btn" data-filter="汁物">汁物</button>
+  <!-- ① 未ログイン時：ログイン画面 -->
+  <div id="login-screen" class="login-screen">
+    <div class="login-card">
+      <h2 class="login-title">🍳 マイ献立アプリ</h2>
+      <p class="login-subtitle">ログインしてクラウドと同期します</p>
+      
+      <div class="login-group">
+        <label for="auth-email">メールアドレス</label>
+        <input type="email" id="auth-email" placeholder="example@mail.com">
       </div>
-      <div class="recipe-grid" id="recipe-grid"></div>
+      
+      <div class="login-group">
+        <label for="auth-password">パスワード (6文字以上)</label>
+        <input type="password" id="auth-password" placeholder="••••••">
+      </div>
+      
+      <button class="btn login-btn" id="btn-login">ログイン / 新規登録</button>
     </div>
+  </div>
 
-    <!-- 3. 献立作成ページ -->
-    <div id="page-menu" class="page-view" style="padding:0;">
-      <div class="献立-container">
-        <aside class="menu-left">
-          <h3 style="margin-bottom:12px; font-size:1.1rem;">1食の献立を作る</h3>
-          <div class="form-group"><label>設定する曜日</label><select id="select-day"><option>月</option><option>火</option><option>水</option><option>木</option><option>金</option><option>土</option><option>日</option></select></div>
-          <div class="form-group"><label>主菜（メイン）</label><select id="select-main"><option>-</option></select></div>
-          <div class="form-group"><label>副菜（サイド）</label><select id="select-side"><option>-</option></select></div>
-          <div class="form-group"><label>汁物（スープ）</label><select id="select-soup"><option>-</option></select></div>
-          <button class="btn primary-btn" id="set-menu-btn" style="background:#2ecc71;">カレンダーに登録</button>
-          <button class="btn" id="gacha-btn" style="background:#9b59b6; color:white; width:100%; margin-top:10px;">🎲 登録レシピから献立ガチャ！</button>
-          <div id="gacha-result" style="margin-top:10px; padding:10px; background:#fff; border:1px dashed #9b59b6; border-radius:6px; font-size:0.8rem; display:none; line-height:1.4;"></div>
-          <button class="btn" id="clear-all-btn" style="background:#eee; color:#666; width:100%; margin-top:15px; font-size:0.8rem;">全データをリセット</button>
-        </aside>
-        
-        <div class="menu-right">
-          <div class="preview-box" id="preview">
-            <div class="preview-box__txt">
-              カレンダー内の料理名をクリックすると、<br>ここにレシピの2カラム詳細が表示されるでち！
-            </div>
+  <!-- ② ログイン済：アプリ本体 -->
+  <div id="app-wrapper" class="app-wrapper">
+    
+    <!-- 上部タブナビゲーション -->
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-target="page-register">レシピ<br>登録</button>
+      <button class="tab-btn" data-target="page-list">レシピ<br>一覧</button>
+      <button class="tab-btn" data-target="page-menu">1週間の<br>献立</button>
+      <button class="tab-btn" data-target="page-shopping">買い物<br>リスト</button>
+      <button class="tab-btn" data-target="page-settings">設定</button>
+    </nav>
+
+    <!-- メインコンテンツ表示部分 -->
+        <main class="main-content-area">
+      
+      <!-- 1. レシピ登録ページ -->
+      <div id="page-register" class="page-view active">
+        <h3 class="section-title">新しいレシピを追加する</h3>
+        <div class="form-group"><label>レシピ名</label><input type="text" id="in-title" placeholder="例：オムライス"></div>
+        <div class="form-group"><label>カテゴリ</label><select id="in-cat"><option>主菜</option><option>副菜</option><option>汁物</option></select></div>
+        <div class="form-group"><label>材料 (名前 分量、1行ずつ)</label><textarea id="in-ing" rows="4" placeholder="卵 2個
+ご飯 1皿"></textarea></div>
+        <div class="form-group"><label>下準備 (1行ずつ)</label><textarea id="in-prep" rows="2" placeholder="卵をよく混ぜておく"></textarea></div>
+        <div class="form-group"><label>作り方 (1行ずつ)</label><textarea id="in-steps" rows="4" placeholder="ご飯を炒める
+卵で包む"></textarea></div>
+        <div class="form-group"><label>メモ (自由に記入)</label><textarea id="in-notes" rows="2" placeholder="例：食べた感想、代用できる調味料など"></textarea></div>
+        <button class="btn primary-btn" id="save-btn">レシピを保存する</button>
+        <p class="hint">既存のレシピを呼び出している場合、上書き保存されます</p>
+      </div>
+
+      <!-- 2. レシピ一覧ページ -->
+      <div id="page-list" class="page-view">
+        <div class="filter-group">
+          <button class="filter-btn active" data-filter="すべて">すべて</button>
+          <button class="filter-btn" data-filter="主菜">主菜</button>
+          <button class="filter-btn" data-filter="副菜">副菜</button>
+          <button class="filter-btn" data-filter="汁物">汁物</button>
+        </div>
+        <div class="recipe-grid" id="recipe-grid"></div>
+      </div>
+
+      <!-- 3. カレンダーページ -->
+      <div id="page-menu" class="page-view">
+        <div class="calendar-page-header">
+          <h3>1週間の献立</h3>
+          <button type="button" class="btn btn-reset-calendar" id="clear-all-btn">今週の献立をリセット</button>
+        </div>
+        <p class="calendar-hint">料理名をタップすると<br>レシピ詳細の確認や曜日変更ができます</p>
+        <div class="calendar-grid" id="calendar-grid"></div>
+      </div>
+
+      <!-- 4. 買い物リストページ -->
+      <div id="page-shopping" class="page-view">
+        <div class="shopping-header">
+          <h3>買い物リスト</h3>
+          <span class="shopping-note">※カレンダーの献立から自動集計</span>
+        </div>
+        <div class="memo-input-group">
+          <input type="text" id="in-memo" class="memo-input" placeholder="例：牛乳、トイレットペーパー">
+          <button class="btn btn-add-memo" id="add-memo-btn">＋ メモを追加</button>
+        </div>
+        <div class="card shopping-hint">
+          スーパーで買ったものはタップすると横線が引けてチェックできます！
+        </div>
+        <ul class="shopping-list" id="shopping-list-container"></ul>
+      </div>
+
+      <!-- 5. 設定ページ -->
+      <div id="page-settings" class="page-view">
+        <h3 class="settings-heading">⚙️ アプリ設定</h3>
+        <!-- アカウント情報カード -->
+        <div class="settings-card">
+          <h4 class="settings-sub-title">👤 アカウント情報</h4>
+          <p class="settings-email">ログイン中: <span id="user-display-email"></span></p>
+          <button class="btn logout-btn" id="btn-logout">ログアウト</button>
+        </div>
+        <!-- カテゴリー管理カード -->
+        <div class="settings-card">
+          <h4 class="settings-sub-title">🏷️ レシピカテゴリーの編集</h4>
+          <p class="settings-desc">新しいカテゴリーを追加したり、不要なものを削除できます。</p>
+          <div class="cat-add-form">
+            <input type="text" id="in-new-cat" placeholder="例：デザート">
+            <button class="btn cat-add-btn" id="btn-add-cat">＋ 追加</button>
           </div>
-          <div class="calendar-box">
-            <h4 style="font-size:0.9rem; color:#444;">📅 1週間の献立カレンダー</h4>
-            <div class="calendar-grid" id="calendar-grid"></div>
-          </div>
+          <ul class="cat-manage-list" id="cat-manage-list">
+            <!-- JavaScriptでカテゴリー一覧がここに描画されます -->
+          </ul>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- 既存の <main> や設定ページの後ろに配置します -->
+    <div id="recipe-modal" class="recipe-modal">
+      <div class="recipe-modal-overlay" id="modal-overlay"></div>
+      <div class="recipe-modal-content">
+        <button type="button" class="modal-close-btn" id="modal-close-btn" title="閉じる">×</button>
+        <div id="modal-body">
+          <!-- JavaScriptでレシピの詳細とクイック登録バーがここに挿入されます -->
         </div>
       </div>
     </div>
 
-    <!-- 4. 買い物リストページ -->
-    <div id="page-shopping" class="page-view">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-        <h3>🛒 今週の買い物リスト</h3>
-        <span style="font-size:0.8rem; color:#7f8c8d;">※カレンダーの献立から自動集計</span>
-      </div>
-      <div style="display:flex; gap:10px; margin-bottom:15px;">
-        <input type="text" id="in-memo" placeholder="例：牛乳、トイレットペーパー" style="flex:1; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:1rem;">
-        <button class="btn" id="add-memo-btn" style="background:#3498db; color:white; white-space:nowrap; padding:0 20px;">＋ メモを追加</button>
-      </div>
-      <div class="card" style="padding:10px; font-size:0.85rem; color:#666;">
-        スーパーで買ったものはタップすると横線が引けてチェックできるでち！
-      </div>
-      <ul class="shopping-list" id="shopping-list-container"></ul>
-    </div>
+  </div><!-- /#app-wrapper -->
 
-  </main>
+  <!-- トースト通知の表示エリア -->
+  <div id="toast-container" class="toast-container"></div>
 
-  <!-- JavaScriptファイルを読み込みます -->
+  <!-- JavaScriptファイル読み込み -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="supabase-init.js"></script>
+  <script src="settings.js"></script>
   <script src="app.js"></script>
-  <script src="shopping.js"></script>
-  <script src="gacha.js"></script>
-  <script src="edit.js"></script>
   <script src="memo.js"></script>
+  <script src="shopping.js"></script>
+  <script src="edit.js"></script>
+
 </body>

@@ -15,11 +15,23 @@ function renderShoppingList() {
     if (menu.main && menu.main !== '-') activeDishes.push(menu.main);
     if (menu.side && menu.side !== '-') activeDishes.push(menu.side);
     if (menu.soup && menu.soup !== '-') activeDishes.push(menu.soup);
+    // 追加カテゴリーの料理も買い物リストの材料集計に含める
+    if (menu.extra) {
+        Object.values(menu.extra).forEach(dish => {
+        if (dish && dish !== '-') activeDishes.push(dish);
+        });
+    }
   });
 
+  // 【重要修正】カレンダーが空の場合の処理を変更
   if (activeDishes.length === 0) {
-    container.innerHTML = '<p style="color:#999; text-align:center; padding:30px;">カレンダーに献立が登録されていません。まずは献立を作成してくださいでち！</p>';
-    return;
+    container.innerHTML = '<p style="color:#999; text-align:center; padding:30px;" id="empty-message">カレンダーに献立が登録されていません。まずは献立を作成してください！</p>';
+    
+    // カレンダーが空でも、手動メモがあれば合流させてから終了する
+    if (typeof window.appendCustomMemos === 'function') {
+      window.appendCustomMemos();
+    }
+    return; // ここで終了
   }
 
   // 料理名から材料を集計する
@@ -87,5 +99,8 @@ function renderShoppingList() {
     container.appendChild(li);
   });
   
-  if (typeof window.appendCustomMemos === 'function') window.appendCustomMemos();
+  // 自動集計の材料がある場合も、最後に手動メモを合流させる
+  if (typeof window.appendCustomMemos === 'function') {
+    window.appendCustomMemos();
+  }
 }
