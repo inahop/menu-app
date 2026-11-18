@@ -869,6 +869,15 @@ body {
 .recipe-detail-wrapper .detail-body-grid .detail-list li {
   margin-bottom: 4px;
 }
+.recipe-detail-wrapper .detail-body-grid > div:first-child .detail-list:nth-of-type(1) {
+  padding-left: 0;
+}
+.recipe-detail-wrapper .detail-body-grid > div:first-child .detail-list:nth-of-type(1):nth-of-type(1) li {
+  margin-bottom: 2px;
+  padding: 0 2px 2px 2px;
+  list-style: none;
+  border-bottom: 1px dotted #ccc;
+}
 .recipe-detail-wrapper .detail-body-grid {
   /* レシピメモ欄 */
 }
